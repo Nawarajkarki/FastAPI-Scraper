@@ -1,0 +1,4 @@
+Env
+*.json
+daraz
+__pycache__
