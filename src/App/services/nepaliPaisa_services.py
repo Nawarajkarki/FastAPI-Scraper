@@ -128,17 +128,25 @@ class DailyPriceService():
     def to_dict(self):
         return {c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs}
     
-    def todays_price(self, symbol:str, date:datetime):
+    
+    
+    
+    def get_stocks_price(self, symbol:str, date:datetime):
         company_id = self.company_service.get_company_id(symbol=symbol)
         
-        daily_stock_price = self.crud.fetch_stock_price_by_date(company_id=company_id, date=date)
+        if date is not None:
+            daily_stock_price = self.crud.fetch_stock_price_by_date(company_id=company_id, date=date)
+        elif date is None:
+            price_history = self.crud.fetch_stocks_price_history(company_id=company_id)
+            return price_history
+            
         if daily_stock_price is None:
             raise HTTPException(status_code=401, detail="Price data for company of that date not found")
         
         # return daily_stock_price
         company = self.company_service.get_company_by_symbol(symbol=symbol)
 
- 
+
         daily_stock_price_dict = {key: value for key, value in daily_stock_price.__dict__.items() if not key.startswith('_sa')}
         company_dict = {key: value for key, value in company.__dict__.items() if not key.startswith('_sa')}
 

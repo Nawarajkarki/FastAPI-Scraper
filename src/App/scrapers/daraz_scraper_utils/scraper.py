@@ -25,6 +25,7 @@ def scrape_title_price_url(dirver, item):
     price_xpaht = ".//div[@class='current-price--Jklkc']//span[@class='currency--GVKjl']"
     price_element = item.find_element(By.XPATH, price_xpaht)
     price = price_element.text
+    price = price.replace(',', '')
     
     
     items_url_xpath = ".//a[@id='id-a-link']"
@@ -113,7 +114,7 @@ def scrape_page_items(driver):
         
         data = {
             'title' : title,
-            'price' : price,
+            'price' : int(price),
             'url' : url,
             'free delivery' : free_delivery,
             'ratings' : ratings,

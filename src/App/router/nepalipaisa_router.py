@@ -7,15 +7,24 @@ from src.entrypoint.database import get_db
 from src.App.services.nepaliPaisa_services import ScrapeCompany, DailyPriceService
 from src.App.schemas import nepaliPaisa_schemas
 
-stocks = APIRouter(prefix='/api/stocks')
+stocks = APIRouter(prefix='/api/stocks', tags=['Nepali Paisa'])
 
 
 @stocks.get('/price/')
 def get_today_price(symbol:str, date:date = date.today(), db:Session=Depends(get_db)):
     daily_price = DailyPriceService(db)
     
-    data = daily_price.todays_price(symbol=symbol.upper(), date=date)
+    data = daily_price.get_stocks_price(symbol=symbol.upper(), date=date)
     return data
+
+
+@stocks.get('/price/history/{symbol}')
+def get_stocks_price_history(symbol:str, db:Session=Depends(get_db)):
+    daily_price = DailyPriceService(db)
+    
+    price_history = daily_price.get_stocks_price(symbol=symbol.upper(), date=None)
+    return price_history
+
 
 @stocks.get('/companies', response_model=list[nepaliPaisa_schemas.Company])
 def get_all_companies(db:Session=Depends(get_db)):
@@ -37,7 +46,7 @@ def get_company_by_symbol(symbol, db:Session=Depends(get_db)):
 
 
 
-scraper = APIRouter(prefix='/api/scraper/nepalipaisa', tags=['Scraper'])
+scraper = APIRouter(prefix='/api/scraper/nepalipaisa', tags=['Scrapers, Nepali Paisa Scraper'])
 
 
 @scraper.get('/company')

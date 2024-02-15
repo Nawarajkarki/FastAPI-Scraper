@@ -9,8 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 
-from daraz_utils.scraper import scrape_page_items
-from daraz_utils.filters import search_item
+from .daraz_scraper_utils.scraper import scrape_page_items
+from .daraz_scraper_utils.filters import search_item
 from src.App.schemas.daraz_schemas import DarazProductCreate
 
 
@@ -26,9 +26,9 @@ def launch_headless_browser():
 
 
 def main(query):
-    # driver = launch_headless_browser()
-    driver = webdriver.Firefox()
-    driver.maximize_window()
+    driver = launch_headless_browser()
+    # driver = webdriver.Firefox()
+    # driver.maximize_window()
     url = "https://www.daraz.com.np"
     driver.get(url)
     
@@ -38,7 +38,7 @@ def main(query):
         # print(item)
         
         data = DarazProductCreate(
-            title = item['title'],
+            productName = item['title'],
             price = item['price'],
             free_delivery= item['free delivery'],
             ratings = item['ratings'],

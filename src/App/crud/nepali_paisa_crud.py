@@ -55,7 +55,12 @@ class NepaliPaisaCrud():
         return (self.db.query(nepaliPaisa_models.DailyStockPrice).filter(
                     nepaliPaisa_models.DailyStockPrice.company_id == company_id,
                     nepaliPaisa_models.DailyStockPrice.date == date).first())
-        
+    
+    def fetch_stocks_price_history(self, company_id:int):
+        return self.db.query(nepaliPaisa_models.DailyStockPrice).filter(
+            nepaliPaisa_models.DailyStockPrice.company_id == company_id).all()
+    
+    
         
     def add_new_item(self, new_item:nepaliPaisa_schemas.DailyStockPriceCreate):
         new_data = nepaliPaisa_models.DailyStockPrice(**new_item.model_dump())
