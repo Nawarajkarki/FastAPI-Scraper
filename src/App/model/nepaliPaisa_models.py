@@ -22,10 +22,10 @@ class Company(Base):
     id = sa.Column(sa.INTEGER, primary_key=True, autoincrement=True, unique=True, index=True)
     name = sa.Column(sa.VARCHAR(255), nullable=False, index=True, unique=True)
     symbol = sa.Column(sa.VARCHAR(20), nullable=False, index=True, unique=True)
-    sector_id = sa.Column(sa.INTEGER, sa.ForeignKey('sector.id'), nullable=False)
+    sector_id = sa.Column(sa.INTEGER, sa.ForeignKey('sector.id'))
     
     # sector = relationship('Sector', back_populates='companies')
-    daily_stock_prices = relationship('DailyStockPrice', uselist=False ,back_populates='company')
+    daily_stock_prices = relationship('DailyStockPrice' ,back_populates='company')
 
 
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import HTTPException
 
-from src.App.schemas.schemas import CompanyCreate, DailyStockPriceCreate
+from src.App.schemas.nepaliPaisa_schemas import CompanyCreate, DailyStockPriceCreate
 
 import requests
 import json
@@ -21,6 +21,7 @@ def ipo_scraper() -> list[dict]:
     data = ipo_response.json()
     # for each in range(len(data['result']['data'])):
     save_to_json("ipo_response", data['result']['data'])
+    
         
     ## Returns a list of dict
     return data['result']['data']
@@ -69,6 +70,7 @@ def today_share_price_scraper():
             lowPrice = each.get('minPrice'),
             previousClose = each.get('previousClosing'),
             volume = each.get('volume'),
+            name = each.get('companyName')
         )
         
         yield stock

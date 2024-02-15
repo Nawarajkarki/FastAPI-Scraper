@@ -15,11 +15,14 @@ class CompanyBase(BaseModel):
     symbol : str
     
 class CompanyCreate(CompanyBase):
-    sector : str
+    sector : str | None = None
     pass
 
+class Company(CompanyBase):
+    id : int
+
 class CompanyInDB(CompanyBase):
-    sector_id : int
+    sector_id : int | None = None
     
     
     
@@ -36,6 +39,7 @@ class DailyStockPriceBase(BaseModel):
 
 class DailyStockPriceCreate(DailyStockPriceBase):
     symbol : str
+    name: str 
     
     
 class DailyStockPriceInDb(DailyStockPriceBase):
